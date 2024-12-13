@@ -114,12 +114,8 @@ static void byteswap_tensor(ggml_tensor * tensor) {
 //
 
 WHISPER_ATTRIBUTE_FORMAT(2, 3)
-static void whisper_log_internal        (ggml_log_level level, const char * format, ...);
+void whisper_log_internal        (ggml_log_level level, const char * format, ...);
 static void whisper_log_callback_default(ggml_log_level level, const char * text, void * user_data);
-
-#define WHISPER_LOG_ERROR(...) whisper_log_internal(GGML_LOG_LEVEL_ERROR, __VA_ARGS__)
-#define WHISPER_LOG_WARN(...)  whisper_log_internal(GGML_LOG_LEVEL_WARN , __VA_ARGS__)
-#define WHISPER_LOG_INFO(...)  whisper_log_internal(GGML_LOG_LEVEL_INFO , __VA_ARGS__)
 
 // define this to enable verbose trace logging - useful for debugging purposes
 //#define WHISPER_DEBUG
@@ -7326,7 +7322,7 @@ void whisper_log_set(ggml_log_callback log_callback, void * user_data) {
 }
 
 GGML_ATTRIBUTE_FORMAT(2, 3)
-static void whisper_log_internal(ggml_log_level level, const char * format, ...) {
+void whisper_log_internal(ggml_log_level level, const char * format, ...) {
     va_list args;
     va_start(args, format);
     char buffer[1024];

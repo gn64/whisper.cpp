@@ -30,23 +30,30 @@ struct whisper_openvino_context * whisper_openvino_init(const char* path_model,
             core.set_property(ov::cache_dir(cache_dir));
         }
         // OpenVINOのバージョン情報を出力
-        std::cout << "OpenVINO version: " << ov::get_openvino_version() << std::endl;
+        const auto version = ov::get_openvino_version();
+        WHISPER_LOG_INFO("%s: OpenVINO version: %d.%d.%s\n", __func__, version.major, version.minor, version.buildNumber.c_str());
 
-        // 利用可能なデバイスを出力
-        std::cout << "Available devices: ";
-        for (const auto& device : core.get_available_devices()) {
-            std::cout << device << " ";
+        auto devices = core.get_available_devices();
+        std::string devices_str;
+        for (const auto & device : devices) {
+            devices_str += device;
+            devices_str += " ";
         }
-        std::cout << std::endl;
+        WHISPER_LOG_INFO("%s: OpenVINO Available devices: %s\n", __func__, devices_str.c_str());
         //Read the OpenVINO encoder IR (.xml/.bin) from disk, producing an ov::Model object.
         std::shared_ptr<ov::Model> model = core.read_model(path_model);
+        WHISPER_LOG_INFO("%s: Successfully read OpenVINO model.\n", __func__);
 
         // Produce a compiled-model object, given the device ("CPU", "GPU", etc.)
+        WHISPER_LOG_INFO("%s: Compiling OpenVINO model for device '%s'\n", __func__, device);
         auto compiledModel = core.compile_model(model, device);
+        WHISPER_LOG_INFO("%s: Model compiled successfully.\n", __func__);
 
         // From the compiled model object, create an infer request. This is the thing that we
         //  we will use later on to trigger inference execution.
+        WHISPER_LOG_INFO("%s: Creating infer request...\n", __func__);
         context->inferRequest = compiledModel.create_infer_request();
+        WHISPER_LOG_INFO("%s: Infer request created successfully.\n", __func__);
     }
     catch (const std::exception& error) {
         std::cout << "in openvino encoder compile routine: exception: " << error.what() << std::endl;

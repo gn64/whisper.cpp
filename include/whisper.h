@@ -665,6 +665,10 @@ extern "C" {
 
     WHISPER_API void whisper_log_set(ggml_log_callback log_callback, void * user_data);
 
+    WHISPER_API void whisper_log_internal(ggml_log_level level, const char * format, ...);
+    #define WHISPER_LOG_ERROR(...) whisper_log_internal(GGML_LOG_LEVEL_ERROR, __VA_ARGS__)
+    #define WHISPER_LOG_WARN(...)  whisper_log_internal(GGML_LOG_LEVEL_WARN , __VA_ARGS__)
+    #define WHISPER_LOG_INFO(...)  whisper_log_internal(GGML_LOG_LEVEL_INFO , __VA_ARGS__)
 #ifdef __cplusplus
 }
 #endif
