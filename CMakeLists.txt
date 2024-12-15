@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5) # for add_link_options and implicit target d
 project("whisper.cpp" C CXX)
 project("whisper.cpp" VERSION 1.7.2)
 include(CheckIncludeFileCXX)
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 set(SOVERSION 1)
 

@@ -29,10 +29,7 @@ struct whisper_openvino_context * whisper_openvino_init(const char* path_model,
             // routine. This speeds up calls to compile_model for successive runs.
             core.set_property(ov::cache_dir(cache_dir));
         }
-        // OpenVINOのバージョン情報を出力
-        const auto version = ov::get_openvino_version();
-        WHISPER_LOG_INFO("%s: OpenVINO version: %d.%d.%s\n", __func__, version.major, version.minor, version.buildNumber.c_str());
-
+        
         auto devices = core.get_available_devices();
         std::string devices_str;
         for (const auto & device : devices) {
