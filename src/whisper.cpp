@@ -7322,7 +7322,7 @@ void whisper_log_set(ggml_log_callback log_callback, void * user_data) {
 }
 
 GGML_ATTRIBUTE_FORMAT(2, 3)
-void whisper_log_internal(ggml_log_level level, const char * format, ...) {
+void whisper_log_internal(enum ggml_log_level level, const char * format, ...) {
     va_list args;
     va_start(args, format);
     char buffer[1024];

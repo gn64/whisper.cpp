@@ -1,5 +1,6 @@
 #include "openvino/whisper-openvino-encoder.h"
 #include "ggml.h"
+#include "whisper.h"
 #include <openvino/openvino.hpp>
 #include <iostream>
 #include <fstream>
